@@ -59,27 +59,13 @@ loc1 = [location.latitude, location.longitude]
 location = geolocator.geocode("Москва")
 print((location.latitude, location.longitude))
 loc2 = [location.latitude, location.longitude]
+location = geolocator.geocode("Санкт-Петербург")
+print((location.latitude, location.longitude))
+loc3 = [location.latitude, location.longitude]
 # отображение на карте
-'''import matplotlib.pylab as plt
-import mpl_toolkits
-mpl_toolkits.__path__.append('/usr/lib/pymodules/python2.7/mpl_toolkits/')
-from mpl_toolkits.basemap import Basemap
-lat = [66.297,66.299,66.298,66.295,66.301,66.304,66.288,66.289,66.286,66.289]
-lon = [33.640,33.660,33.690,33.747,33.829,33.908,33.891,33.839,33.781,33.740]
-m = Basemap(projection='merc', llcrnrlat=66.22, urcrnrlat=66.37, \
-            llcrnrlon=33.60, urcrnrlon=34, resolution='f')
-figsize(10, 15)
-
-x, y = m(lon, lat)
-
-m.drawcoastlines()
-m.fillcontinents(color='gray', lake_color='white')
-m.drawmapboundary(fill_color='white')
-m.drawparallels(np.arange(66.22, 66.37, .04), labels=[1, 0, 0, 0], fontsize=14)
-m.drawmeridians(np.arange(33.60, 34., .1), labels=[0, 0, 0, 1], fontsize=14)
-
-m.scatter(x, y, 20, marker='o', color='k')
-plt.title("Location of the measurement points", fontsize=14)
-plt.show()'''
-
-
+import folium
+map = folium.Map(location=loc1, zoom_start = 5)
+for coordinates in [loc1,loc2,loc3]:
+    folium.Marker(location=coordinates, icon=folium.Icon(color = 'green')).add_to(map)
+folium.PolyLine([loc2,loc1,loc3]).add_to(map)
+map.save("map2.html")
