@@ -16,12 +16,12 @@ with open('1.txt') as f:
         ls.append(words)
 for i in ls:
     ls1 = i
-print(ls1)
+#print(ls1)
 for word in ls1:
     for p in morph.parse(word):
         is_name = any('Name' in p.tag for p in morph.parse(word))
         if (is_name):
-            print(word)
+             print(word)
 with open('2.txt') as movement:  # приводим передвижения в нормальную форму
     ls2 = []
     for line in movement:
@@ -33,7 +33,7 @@ with open('2.txt') as movement:  # приводим передвижения в 
         ls2.append(words2)
 for i in ls2:
     move = i
-print(move)
+#print(move)
 # блок для поиска городов
 lines = [
     'тамань', 'пермь','капуста','В Чеченской республике на день рождения ...',
@@ -52,20 +52,26 @@ for line in ls1:
         print(end='')
 # находим координаты
 from geopy.geocoders import Nominatim
-geolocator = Nominatim()
-location = geolocator.geocode("Пермь")
+geolocator = Nominatim(user_agent="specify_your_app_name_here")
+location = geolocator.geocode("Москва")
 print((location.latitude, location.longitude))
 loc1 = [location.latitude, location.longitude]
-location = geolocator.geocode("Москва")
+location = geolocator.geocode("Париж") # типа франция
 print((location.latitude, location.longitude))
 loc2 = [location.latitude, location.longitude]
 location = geolocator.geocode("Санкт-Петербург")
 print((location.latitude, location.longitude))
 loc3 = [location.latitude, location.longitude]
+location = geolocator.geocode("Вена")  # типа австрия
+print((location.latitude, location.longitude))
+loc4 = [location.latitude, location.longitude]
+location = geolocator.geocode("Браунау-ам-Инн")  # типа австрия
+print((location.latitude, location.longitude))
+loc5 = [location.latitude, location.longitude]
 # отображение на карте
 import folium
 map = folium.Map(location=loc1, zoom_start = 5)
-for coordinates in [loc1,loc2,loc3]:
+for coordinates in [loc1,loc2,loc3,loc4,loc5]:
     folium.Marker(location=coordinates, icon=folium.Icon(color = 'green')).add_to(map)
-folium.PolyLine([loc2,loc1,loc3]).add_to(map)
+folium.PolyLine([loc2,loc1,loc3,loc4,loc5]).add_to(map)
 map.save("map2.html")
