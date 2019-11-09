@@ -20,8 +20,10 @@ for i in ls:
 for word in ls1:
     for p in morph.parse(word):
         is_name = any('Name' in p.tag for p in morph.parse(word))
+        exc=['том','из','арен','герой','гора','брюнна','слава','«право']
         if (is_name):
-             print(word)
+            if (word not in exc):
+                print(word)
 with open('2.txt') as movement:  # приводим передвижения в нормальную форму
     ls2 = []
     for line in movement:
@@ -47,7 +49,9 @@ for line in ls1:
         matches = extractor(line)
         match = matches[0]
         fact = match.fact.as_json
-        print(dict(fact)['name'])
+        exc1 = ['ростов', 'уста', 'мирный', 'главнокомандовавший', 'билибино', 'тушино','пара','билибин']
+        if (dict(fact)['name'] not in exc1):
+            print(dict(fact)['name'])
     except:
         print(end='')
 # находим координаты
