@@ -2,13 +2,16 @@ import pymorphy2
 import geocoder
 import natasha
 from collections import OrderedDict
+
+from folium import Popup
+
 morph = pymorphy2.MorphAnalyzer()
 #_________передвижение
 with open('2.txt') as movement: # ключевые слова передвижения
     lst2 = []
     for line in movement:
         lst2 = line.split()
-print(lst2)
+#print(lst2)
 phileasfogg = {}
 k=0
 with open('Верн Жюль. Вокруг света в восемьдесят дней - royallib.com.txt') as f:
@@ -54,12 +57,22 @@ for key in phileasfogg.keys():
     print(phileasfogg[key])
 location1.insert(0,[51.5073219, -0.1276474]) # координаты лондона
 location1.append([51.5073219, -0.1276474])
-print(location1)
-location1.remove([22.34921555, 114.185797810004]) # "ошибка" алгоритма
+#  print(location1)
+location1.remove([22.34921555, 114.185797810004]) # "ошибка" алгоритма'''
+location12=[]  # убрать повторения для корректной нумерации
+for i in location1:
+    if i not in location12:
+        location12.append(i)
+location12.insert(0,[51.5073219, -0.1276474]) # координаты лондона
+location12.append([51.5073219, -0.1276474])
 #отображение на карте
 import folium
-map = folium.Map(location=[51.5073219, -0.1276474], zoom_start = 5)
-for coordinates in location1:
-    folium.Marker(location=coordinates, icon=folium.Icon(color = 'green')).add_to(map)
-folium.PolyLine([location1]).add_to(map)
-map.save("map2.html")
+i=0
+map1 = folium.Map(location=[51.5073219, -0.1276474], popup = str(i), zoom_start = 5)
+for coordinates in location12:
+    if i==10:
+        i=1
+    folium.CircleMarker(location=coordinates, popup=Popup(str(i), parse_html=True, show=True),  tooltip=str(i), fill_color="green", color="gray", fill_opacity = 0.9).add_to(map1)
+    i=i+1
+folium.PolyLine([location12]).add_to(map1)
+map1.save("map2.html")
